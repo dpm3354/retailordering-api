@@ -1,6 +1,5 @@
 package beaufort.mockingapis;
 
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,13 +9,29 @@ import static org.hamcrest.Matchers.*;
 
 public class APITests {
 
+	final static String mockableBaseUrl = "http://demo3637982.mockable.io/";
+	final static String mocklabBaseUrl = "http://bftft.mocklab.io/";
+
+	String baseUrl = mockableBaseUrl;
+
 	@Before
 	public void setUp() throws Exception {
 	}
 
+
 	@Test
-	public void test() {
-		get("http://demo3637982.mockable.io/").then().body("msg", equalTo("Hello World."));
+	public void purchase_receiptExistsTest() {
+		post(baseUrl + "purchase").then().body("receipt", notNullValue());
+	}
+
+	@Test
+	public void purchase_receiptIncludesSkuTest() {
+		given().
+			param("sku", "12345678").
+		when().
+			post(baseUrl + "purchase").
+		then().
+			body("receipt.sku", equalTo("12345678"));
 	}
 
 }
