@@ -34,4 +34,26 @@ public class APITests {
 			body("receipt.sku", equalTo("12345678"));
 	}
 
+	@Test
+	public void purchase_receiptIncludesPriceTest() {
+		given().
+			param("sku", "12345678").
+			param("paymentType", "cash").
+		when().
+			post(baseUrl + "purchase").
+		then().
+			body("receipt.price", equalTo("$12.00"));
+	}
+
+	@Test
+	public void purchase_receiptIncludesPaymentTypeTest() {
+		given().
+			param("sku", "12345678").
+			param("paymentType", "cash").
+		when().
+			post(baseUrl + "purchase").
+		then().
+			body("receipt.paymentType", equalTo("cash"));
+	}
+
 }
